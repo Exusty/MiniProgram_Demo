@@ -1,0 +1,52 @@
+<!--pages/profile/profile.wxml-->
+<view class="profile-page">
+  <!-- 用户信息区域 -->
+  <view class="user-section">
+    <view class="user-info">
+      <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}" mode="aspectFill"/>
+      <view class="user-details">
+        <view class="nickname">{{userInfo.nickname || '点击登录'}}</view>
+        <view class="phone">{{userInfo.phone || '获取更多服务'}}</view>
+      </view>
+      <view class="login-btn" bindtap="handleLogin">
+        {{userInfo.nickname ? '已登录' : '登录'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-group">
+      <view class="group-title">我的服务</view>
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/orders/orders">
+        <view class="menu-icon">📋</view>
+        <view class="menu-text">我的订单</view>
+        <view class="menu-arrow">></view>
+      </view>
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/favorites/favorites">
+        <view class="menu-icon">❤️</view>
+        <view class="menu-text">我的收藏</view>
+        <view class="menu-arrow">></view>
+      </view>
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/feedback/feedback">
+        <view class="menu-icon">💬</view>
+        <view class="menu-text">意见反馈</view>
+        <view class="menu-arrow">></view>
+      </view>
+    </view>
+
+    <view class="menu-group">
+      <view class="group-title">更多功能</view>
+      <view class="menu-item" bindtap="navigateTo" data-url="/pages/chat/chat">
+        <view class="menu-icon">🤖</view>
+        <view class="menu-text">智能客服</view>
+        <view class="menu-arrow">></view>
+      </view>
+      <view class="menu-item" bindtap="showAbout">
+        <view class="menu-icon">ℹ️</view>
+        <view class="menu-text">关于我们</view>
+        <view class="menu-arrow">></view>
+      </view>
+    </view>
+  </view>
+</view>

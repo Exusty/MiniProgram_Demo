@@ -1,0 +1,79 @@
+<!--pages/places/detail/detail.wxml-->
+<view class="place-detail-page">
+  <!-- 头部图片轮播 -->
+  <view class="header-images">
+    <swiper class="images-swiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}">
+      <swiper-item wx:for="{{placeInfo.images}}" wx:key="*this">
+        <image 
+          class="place-image" 
+          src="{{item}}" 
+          mode="aspectFill" 
+          bindtap="previewImages"
+          data-src="{{item}}"/>
+      </swiper-item>
+    </swiper>
+    
+    <!-- 播放视频按钮 -->
+    <view wx:if="{{placeInfo.hasVideo}}" class="video-btn" bindtap="playVideo">
+      <text class="iconfont icon-play"></text>
+      <text class="video-text">观看介绍视频</text>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="basic-info card">
+    <view class="place-title">{{placeInfo.name}}</view>
+    <view class="place-subtitle">{{placeInfo.subtitle}}</view>
+    <view class="place-description">{{placeInfo.description}}</view>
+  </view>
+
+  <!-- 特色亮点 -->
+  <view class="features-section card">
+    <view class="section-title">特色亮点</view>
+    <view class="features-list">
+      <view class="feature-item" wx:for="{{placeInfo.features}}" wx:key="*this">
+        <text class="feature-dot">•</text>
+        <text class="feature-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 参观信息 -->
+  <view class="visit-info card">
+    <view class="section-title">参观信息</view>
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">开放时间：</text>
+        <text class="info-value">{{placeInfo.openTime}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">详细地址：</text>
+        <text class="info-value">{{placeInfo.address}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">联系电话：</text>
+        <text class="info-value phone" bindtap="makePhoneCall">{{placeInfo.phone}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">参考价格：</text>
+        <text class="info-value price">{{placeInfo.ticketPrice}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions">
+    <button class="action-btn secondary" bindtap="openLocation">
+      <text class="iconfont icon-location"></text>
+      <text>导航</text>
+    </button>
+    <button class="action-btn secondary" bindtap="makePhoneCall">
+      <text class="iconfont icon-phone"></text>
+      <text>电话</text>
+    </button>
+    <button class="action-btn primary" open-type="share">
+      <text class="iconfont icon-share"></text>
+      <text>分享</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "村庄导览",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#F8F9FA"
+}

@@ -1,0 +1,193 @@
+<!--pages/activity/activity.wxml-->
+<view class="activity-page">
+  <!-- 顶部分类标签 -->
+  <view class="category-section">
+    <scroll-view class="category-scroll" scroll-x="{{true}}" show-scrollbar="{{false}}">
+      <view class="category-list">
+        <view 
+          class="category-item {{currentCategory === item.id ? 'active' : ''}}" 
+          wx:for="{{categories}}" 
+          wx:key="id"
+          bindtap="onCategoryChange" 
+          data-id="{{item.id}}">
+          <image class="category-icon" src="{{item.icon}}" mode="aspectFit"/>
+          <text class="category-text">{{item.name}}</text>
+          <view wx:if="{{item.count > 0}}" class="category-badge">{{item.count}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 筛选和排序 -->
+  <view class="filter-section">
+    <view class="filter-left">
+      <view class="filter-btn" bindtap="showFilterModal">
+        <text class="iconfont icon-filter"></text>
+        <text>筛选</text>
+        <view wx:if="{{hasActiveFilters}}" class="filter-dot"></view>
+      </view>
+      <view class="sort-btn" bindtap="showSortModal">
+        <text class="iconfont icon-sort"></text>
+        <text>{{currentSortName}}</text>
+      </view>
+    </view>
+    <view class="filter-right">
+      <text class="result-count">共{{filteredActivities.length}}个活动</text>
+    </view>
+  </view>
+
+  <!-- 活动列表 -->
+  <view class="activities-section">
+    <view wx:if="{{filteredActivities.length > 0}}" class="activities-list">
+      <view 
+        class="activity-item card" 
+        wx:for="{{filteredActivities}}" 
+        wx:key="id"
+        bindtap="onActivityTap" 
+        data-id="{{item.id}}">
+        
+        <!-- 活动封面 -->
+        <view class="activity-image-wrapper">
+          <image class="activity-image" src="{{item.image}}" mode="aspectFill"/>
+          <view class="activity-status status-{{item.status}}">{{item.statusText}}</view>
+          <view wx:if="{{item.isHot}}" class="hot-tag">火热</view>
+        </view>
+
+        <!-- 活动内容 -->
+        <view class="activity-content">
+          <view class="activity-header">
+            <view class="activity-title">{{item.title}}</view>
+            <view class="activity-price">
+              <text class="price-symbol">￥</text>
+              <text class="price-value">{{item.price}}</text>
+              <text class="price-unit">/人</text>
+            </view>
+          </view>
+          
+          <view class="activity-desc">{{item.desc}}</view>
+          
+          <view class="activity-info">
+            <view class="info-item">
+              <text class="iconfont icon-time"></text>
+              <text class="info-text">{{item.duration}}</text>
+            </view>
+            <view class="info-item">
+              <text class="iconfont icon-location"></text>
+              <text class="info-text">{{item.location}}</text>
+            </view>
+            <view class="info-item">
+              <text class="iconfont icon-group"></text>
+              <text class="info-text">{{item.participants}}人已参与</text>
+            </view>
+          </view>
+
+          <view class="activity-tags">
+            <text class="tag tag-category">{{item.categoryName}}</text>
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+          </view>
+
+          <view class="activity-footer">
+            <view class="activity-time">
+              <text class="time-label">下次开团：</text>
+              <text class="time-value">{{item.nextDate}}</text>
+            </view>
+            <view class="activity-rating">
+              <view class="rating-stars">
+                <text class="star {{index < item.rating ? 'filled' : ''}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this">★</text>
+              </view>
+              <text class="rating-text">{{item.rating}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:else class="empty-state">
+      <image class="empty-icon" src="/images/empty/no-activity.png"/>
+      <view class="empty-text">暂无相关活动</view>
+      <view class="empty-desc">请尝试调整筛选条件</view>
+      <button class="empty-btn btn-primary" bindtap="resetFilters">重置筛选</button>
+    </view>
+  </view>
+</view>
+
+<!-- 筛选弹窗 -->
+<view class="filter-modal {{showFilterModal ? 'show' : ''}}" bindtap="hideFilterModal">
+  <view class="filter-content" catchtap="stopPropagation">
+    <view class="filter-header">
+      <view class="filter-title">筛选条件</view>
+      <view class="filter-reset" bindtap="resetFilters">重置</view>
+    </view>
+    
+    <!-- 价格筛选 -->
+    <view class="filter-group">
+      <view class="filter-group-title">价格范围</view>
+      <view class="price-options">
+        <view 
+          class="price-option {{selectedPriceRange === item.id ? 'active' : ''}}" 
+          wx:for="{{priceRanges}}" 
+          wx:key="id"
+          bindtap="selectPriceRange" 
+          data-id="{{item.id}}">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 时间筛选 -->
+    <view class="filter-group">
+      <view class="filter-group-title">活动时间</view>
+      <view class="time-options">
+        <view 
+          class="time-option {{selectedTimeRange === item.id ? 'active' : ''}}" 
+          wx:for="{{timeRanges}}" 
+          wx:key="id"
+          bindtap="selectTimeRange" 
+          data-id="{{item.id}}">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 特色标签 -->
+    <view class="filter-group">
+      <view class="filter-group-title">特色标签</view>
+      <view class="tag-options">
+        <view 
+          class="tag-option {{selectedTags.includes(item) ? 'active' : ''}}" 
+          wx:for="{{allTags}}" 
+          wx:key="*this"
+          bindtap="toggleTag" 
+          data-tag="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="filter-buttons">
+      <button class="filter-btn-cancel" bindtap="hideFilterModal">取消</button>
+      <button class="filter-btn-confirm btn-primary" bindtap="applyFilters">确定</button>
+    </view>
+  </view>
+</view>
+
+<!-- 排序弹窗 -->
+<view class="sort-modal {{showSortModal ? 'show' : ''}}" bindtap="hideSortModal">
+  <view class="sort-content" catchtap="stopPropagation">
+    <view class="sort-header">
+      <view class="sort-title">排序方式</view>
+    </view>
+    <view class="sort-options">
+      <view 
+        class="sort-option {{currentSort === item.id ? 'active' : ''}}" 
+        wx:for="{{sortOptions}}" 
+        wx:key="id"
+        bindtap="selectSort" 
+        data-id="{{item.id}}">
+        <text class="sort-text">{{item.name}}</text>
+        <text wx:if="{{currentSort === item.id}}" class="iconfont icon-check"></text>
+      </view>
+    </view>
+  </view>
+</view> 

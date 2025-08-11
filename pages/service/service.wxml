@@ -1,0 +1,62 @@
+<!--pages/service/service.wxml-->
+<view class="service-page">
+  <!-- 顶部选项卡 -->
+  <view class="tabs-section">
+    <view class="tabs">
+      <view 
+        class="tab-item {{currentTab === item.id ? 'active' : ''}}"
+        wx:for="{{tabs}}" 
+        wx:key="id"
+        bindtap="switchTab" 
+        data-id="{{item.id}}">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务列表 -->
+  <view class="services-section">
+    <view class="services-list">
+      <view 
+        class="service-item card" 
+        wx:for="{{currentServices}}" 
+        wx:key="id"
+        bindtap="onServiceTap" 
+        data-id="{{item.id}}">
+        
+        <image class="service-image" src="{{item.image}}" mode="aspectFill"/>
+        <view class="service-content">
+          <view class="service-header">
+            <view class="service-name">{{item.name}}</view>
+            <view class="service-rating">
+              <text class="rating-score">{{item.rating}}</text>
+              <text class="rating-star">★</text>
+            </view>
+          </view>
+          
+          <view class="service-desc">{{item.desc}}</view>
+          
+          <view class="service-info">
+            <view class="info-item">
+              <text class="info-label">地址：</text>
+              <text class="info-value">{{item.address}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">价格：</text>
+              <text class="info-value price">{{item.priceRange}}</text>
+            </view>
+          </view>
+
+          <view class="service-tags">
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{currentServices.length === 0}}" class="empty-state">
+      <view class="empty-text">暂无相关服务</view>
+    </view>
+  </view>
+</view>

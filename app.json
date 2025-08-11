@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/guide/guide",
+    "pages/guide/detail/detail",
+    "pages/activity/activity",
+    "pages/activity/detail/detail",
+    "pages/service/service",
+    "pages/service/detail/detail",
+    "pages/culture/culture",
+    "pages/culture/memory/memory",
+    "pages/culture/tour/tour",
+    "pages/profile/profile",
+    "pages/chat/chat",
+    "pages/feedback/feedback",
+    "pages/places/detail/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#2E7D32",
+    "navigationBarTitleText": "鱼子山村",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F9FA",
+    "enablePullDownRefresh": true,
+    "backgroundColorTop": "#2E7D32",
+    "backgroundColorBottom": "#F8F9FA"
+  },
+  "tabBar": {
+    "color": "#757575",
+    "selectedColor": "#2E7D32",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/guide/guide",
+        "text": "与子·山谷"
+      },
+      {
+        "pagePath": "pages/service/service",
+        "text": "服务"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+} 

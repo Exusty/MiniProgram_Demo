@@ -1,0 +1,75 @@
+<!--pages/index/index.wxml-->
+<view class="index-page">
+  <!-- 顶部轮播图 -->
+  <view class="banner-section">
+    <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{5000}}" duration="{{500}}" circular="{{true}}">
+      <swiper-item wx:for="{{bannerList}}" wx:key="id">
+        <image class="banner-image" src="{{item.image}}" mode="aspectFill" bindtap="onBannerTap" data-item="{{item}}"/>
+        <view class="banner-content">
+          <view class="banner-title">{{item.title}}</view>
+          <view class="banner-desc">{{item.desc}}</view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 快捷入口网格 -->
+  <view class="quick-entry-section">
+    <view class="section-title">智慧服务</view>
+    <view class="quick-grid">
+      <view class="quick-item" wx:for="{{quickEntries}}" wx:key="id" bindtap="onQuickEntryTap" data-path="{{item.path}}">
+        <view class="quick-icon">
+          <image src="{{item.icon}}" mode="aspectFit"/>
+        </view>
+        <view class="quick-title">{{item.title}}</view>
+      </view>
+    </view>
+  </view>
+
+
+
+  <!-- 特色场所 -->
+  <view class="hotspot-section">
+    <view class="section-header">
+      <view class="section-title">特色场所</view>
+      <view class="section-more" bindtap="navigateToGuide">
+        更多 <text class="iconfont icon-arrow-right"></text>
+      </view>
+    </view>
+    <view class="hotspot-list">
+      <view class="hotspot-item card" wx:for="{{hotspots}}" wx:key="id" bindtap="onHotspotTap" data-id="{{item.id}}">
+        <image class="hotspot-image" src="{{item.image}}" mode="aspectFill"/>
+        <view class="hotspot-content">
+          <view class="hotspot-title">{{item.title}}</view>
+          <view class="hotspot-desc">{{item.desc}}</view>
+          <view class="hotspot-tags">
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最新资讯 -->
+  <view class="news-section">
+    <view class="section-title">最新咨询</view>
+    <view class="news-list">
+      <view class="news-item" wx:for="{{newsList}}" wx:key="id" bindtap="onNewsTap" data-id="{{item.id}}">
+        <view class="news-content">
+          <view class="news-title">{{item.title}}</view>
+          <view class="news-summary">{{item.summary}}</view>
+          <view class="news-meta">
+            <text class="news-time">{{item.time}}</text>
+            <text class="news-views">{{item.views}}人浏览</text>
+          </view>
+        </view>
+        <image wx:if="{{item.image}}" class="news-image" src="{{item.image}}" mode="aspectFill"/>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 客服悬浮按钮 -->
+<view class="fab" bindtap="openCustomerService">
+  <text class="iconfont icon-service"></text>
+</view> 

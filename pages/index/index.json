@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "鱼子山村",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#F8F9FA"
+} 

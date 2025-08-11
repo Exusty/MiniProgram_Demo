@@ -1,0 +1,43 @@
+<!--pages/chat/chat.wxml-->
+<view class="chat-page">
+  <view class="chat-header">
+    <view class="header-title">智能客服</view>
+    <view class="header-subtitle">有问题可以随时问我</view>
+  </view>
+
+  <view class="messages-container">
+    <view class="message-item {{item.type}}" wx:for="{{messages}}" wx:key="id">
+      <view class="message-avatar">
+        <image src="{{item.type === 'user' ? '/images/user-avatar.png' : '/images/bot-avatar.png'}}" mode="aspectFill"/>
+      </view>
+      <view class="message-content">
+        <view class="message-text">{{item.content}}</view>
+        <view class="message-time">{{item.time}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="input-section">
+    <view class="quick-questions">
+      <view 
+        class="quick-item" 
+        wx:for="{{quickQuestions}}" 
+        wx:key="*this"
+        bindtap="sendQuickQuestion"
+        data-question="{{item}}">
+        {{item}}
+      </view>
+    </view>
+    
+    <view class="input-bar">
+      <input 
+        class="message-input" 
+        placeholder="请输入您的问题..." 
+        value="{{inputText}}"
+        bindinput="onInput"
+        confirm-type="send"
+        bindconfirm="sendMessage"/>
+      <button class="send-btn" bindtap="sendMessage">发送</button>
+    </view>
+  </view>
+</view>

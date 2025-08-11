@@ -1,0 +1,180 @@
+<!--pages/guide/guide.wxml-->
+<view class="guide-page">
+  <!-- 地图区域 -->
+  <view class="map-section">
+    <map 
+      id="village-map" 
+      class="village-map"
+      longitude="{{mapCenter.longitude}}" 
+      latitude="{{mapCenter.latitude}}" 
+      scale="{{mapScale}}"
+      markers="{{markers}}" 
+      bindmarkertap="onMarkerTap"
+      bindregionchange="onRegionChange"
+      show-location="{{true}}"
+      show-scale="{{true}}"
+      enable-zoom="{{true}}"
+      enable-scroll="{{true}}"
+      enable-rotate="{{false}}"
+      enable-satellite="{{false}}"
+      enable-traffic="{{false}}">
+      
+      <!-- 地图控制按钮 -->
+      <cover-view class="map-controls">
+        <cover-view class="map-btn" bindtap="centerToUser">
+          <cover-image src="/images/icons/location.png"/>
+        </cover-view>
+        <cover-view class="map-btn" bindtap="zoomIn">
+          <cover-image src="/images/icons/zoom-in.png"/>
+        </cover-view>
+        <cover-view class="map-btn" bindtap="zoomOut">
+          <cover-image src="/images/icons/zoom-out.png"/>
+        </cover-view>
+      </cover-view>
+    </map>
+  </view>
+
+  <!-- 分类筛选栏 */
+  <view class="filter-section">
+    <scroll-view class="filter-scroll" scroll-x="{{true}}" show-scrollbar="{{false}}">
+      <view class="filter-list">
+        <view 
+          class="filter-item {{currentFilter === item.id ? 'active' : ''}}" 
+          wx:for="{{filterOptions}}" 
+          wx:key="id"
+          bindtap="onFilterChange" 
+          data-id="{{item.id}}">
+          <image class="filter-icon" src="{{item.icon}}" mode="aspectFit"/>
+          <text class="filter-text">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 景点列表 -->
+  <view class="spots-section">
+    <view class="section-header">
+      <view class="section-title">
+        {{currentFilterName}}
+        <text class="count">({{filteredSpots.length}})</text>
+      </view>
+      <view class="view-mode">
+        <view class="mode-btn {{viewMode === 'list' ? 'active' : ''}}" bindtap="switchViewMode" data-mode="list">
+          <text class="iconfont icon-list"></text>
+        </view>
+        <view class="mode-btn {{viewMode === 'grid' ? 'active' : ''}}" bindtap="switchViewMode" data-mode="grid">
+          <text class="iconfont icon-grid"></text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 列表视图 -->
+    <view wx:if="{{viewMode === 'list'}}" class="spots-list">
+      <view 
+        class="spot-item card" 
+        wx:for="{{filteredSpots}}" 
+        wx:key="id"
+        bindtap="onSpotTap" 
+        data-id="{{item.id}}">
+        <image class="spot-image" src="{{item.image}}" mode="aspectFill"/>
+        <view class="spot-content">
+          <view class="spot-header">
+            <view class="spot-title">{{item.title}}</view>
+            <view class="spot-distance">{{item.distance}}km</view>
+          </view>
+          <view class="spot-desc">{{item.desc}}</view>
+          <view class="spot-info">
+            <view class="spot-tags">
+              <text class="tag tag-{{item.category}}">{{item.categoryName}}</text>
+              <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+            </view>
+            <view class="spot-rating">
+              <text class="rating-score">{{item.rating}}</text>
+              <view class="rating-stars">
+                <text class="star {{index < item.rating ? 'filled' : ''}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this">★</text>
+              </view>
+            </view>
+          </view>
+          <view class="spot-meta">
+            <text class="open-time">{{item.openTime}}</text>
+            <text class="price">{{item.price}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 网格视图 -->
+    <view wx:elif="{{viewMode === 'grid'}}" class="spots-grid">
+      <view 
+        class="grid-item" 
+        wx:for="{{filteredSpots}}" 
+        wx:key="id"
+        bindtap="onSpotTap" 
+        data-id="{{item.id}}">
+        <image class="grid-image" src="{{item.image}}" mode="aspectFill"/>
+        <view class="grid-content">
+          <view class="grid-title">{{item.title}}</view>
+          <view class="grid-category">{{item.categoryName}}</view>
+          <view class="grid-rating">
+            <text class="rating-score">{{item.rating}}</text>
+            <text class="distance">{{item.distance}}km</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{filteredSpots.length === 0}}" class="empty-state">
+      <image class="empty-icon" src="/images/empty/no-data.png"/>
+      <view class="empty-text">暂无相关景点</view>
+      <view class="empty-desc">请尝试选择其他分类</view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions">
+    <view class="action-btn" bindtap="showRouteDialog">
+      <text class="iconfont icon-route"></text>
+      <text>路线规划</text>
+    </view>
+    <view class="action-btn" bindtap="showSearchDialog">
+      <text class="iconfont icon-search"></text>
+      <text>搜索</text>
+    </view>
+    <view class="action-btn" bindtap="showLayersDialog">
+      <text class="iconfont icon-layers"></text>
+      <text>图层</text>
+    </view>
+  </view>
+</view>
+
+<!-- 搜索弹窗 -->
+<view class="search-modal {{showSearch ? 'show' : ''}}" bindtap="hideSearchDialog">
+  <view class="search-content" catchtap="stopPropagation">
+    <view class="search-header">
+      <view class="search-title">搜索景点</view>
+      <view class="search-close" bindtap="hideSearchDialog">×</view>
+    </view>
+    <view class="search-input-wrapper">
+      <input 
+        class="search-input" 
+        placeholder="请输入景点名称" 
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+        bindconfirm="doSearch"/>
+      <view class="search-btn" bindtap="doSearch">搜索</view>
+    </view>
+    <view class="search-history" wx:if="{{searchHistory.length > 0}}">
+      <view class="history-title">历史搜索</view>
+      <view class="history-tags">
+        <text 
+          class="history-tag" 
+          wx:for="{{searchHistory}}" 
+          wx:key="*this"
+          bindtap="selectSearchHistory"
+          data-keyword="{{item}}">{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view> 

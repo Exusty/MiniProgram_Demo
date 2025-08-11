@@ -1,0 +1,140 @@
+/* pages/service/service.wxss */
+
+.service-page {
+  background: var(--bg-color);
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+.tabs-section {
+  background: var(--card-bg);
+  padding: 0 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab-item {
+  padding: 32rpx 16rpx;
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  border-bottom: 4rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tab-item.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  font-weight: 500;
+}
+
+.services-section {
+  padding: 32rpx;
+}
+
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.service-item {
+  display: flex;
+  padding: 24rpx;
+}
+
+.service-image {
+  width: 180rpx;
+  height: 135rpx;
+  border-radius: 12rpx;
+  margin-right: 24rpx;
+}
+
+.service-content {
+  flex: 1;
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.service-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.service-rating {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.rating-score {
+  font-size: 24rpx;
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+.rating-star {
+  font-size: 20rpx;
+  color: var(--accent-color);
+}
+
+.service-desc {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.service-info {
+  margin-bottom: 16rpx;
+}
+
+.info-item {
+  display: flex;
+  margin-bottom: 8rpx;
+  font-size: 24rpx;
+}
+
+.info-label {
+  color: var(--text-secondary);
+  min-width: 80rpx;
+}
+
+.info-value {
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.info-value.price {
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.tag {
+  padding: 6rpx 12rpx;
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--primary-color);
+  border-radius: 16rpx;
+  font-size: 20rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 120rpx 32rpx;
+  color: var(--text-secondary);
+}
