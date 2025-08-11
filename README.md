@@ -27,7 +27,7 @@ cd MiniProgram_Demo
 
 - GitHub: [@Exusty](https://github.com/Exusty)
 - 项目链接: [https://github.com/Exusty/MiniProgram_Demo](https://github.com/Exusty/MiniProgram_Demo)
-- 开发者微信：![alt text](image.png)
+
 
 
 
